@@ -1,69 +1,245 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>網路找的照片</title>
-</head>
-<body onload="startClock()" onunload="stopClock()">
-    
-    <center>
-    <div id="show"></div>
-    </center>
+<!DOCTYPE HTML>
 
-    <h2>圖片集</h2>
-    <img src="pic00.jpg" alt="" onmousedown="this.src=nextImage()" 
-                                onmouseover="this.src=randomImage()">
-    <script>
+<html>
+	<head>
+		<title>攝影手札</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<script src="assets/js/jquery.min.js"></script>
+		<script src="assets/js/skel.min.js"></script>
+		<script src="assets/js/util.js"></script>
+		<script src="assets/js/main.js"></script>
+		<link href="jquery-mobile/jquery.mobile-1.0.min.css" rel="stylesheet" type="text/css">
+		<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+		<script src="jquery-mobile/jquery.mobile-1.0.min.js" type="text/javascript"></script>
 
-        var timer = null;
-// 顯示數字圖片
-function displayClock(num) {
-  var dig = parseInt(num/10);
-  var timetag="<img src='images\\" + dig + ".gif'>";
-  dig = num%10;
-  timetag +="<img src='images\\" + dig + ".gif'>";
-  return timetag;
+
+<style>
+#map_div {
+
+	padding-top: 10%;
+	padding-bottom: 10%;
+	position: absolute;
+	width: 82%;
+	height: 95%;
+	max-height: 1600px;
 }
-// 停止計時
-function stopClock() {
-   clearTimeout(timer);
-}
-// 開始計時
-function startClock() {
-   var time = new Date();
-   // 取得時間
-   var hours = displayClock(time.getHours()) + ":";
-   var minutes = displayClock(time.getMinutes()) + ":";
-   var seconds = displayClock(time.getSeconds());
-   // 顯示時間
-   show.innerHTML = hours + minutes + seconds;
-   timer = setTimeout("startClock()",1000);
-}
+</style>
 
-        var curIndex=0;
-        var imgArray = new Array();
-        var pics=11;
-        for(i=0;i<pics;i++){
-            
-            imgArray[i]=new Image();
-            if(i<10)
-            imgArray[i].src="pic0"+i+".jpg";
-            else
-            imgArray[i].src="pic"+i+".jpg";
+<script language="Javascript">
 
-        }
-        function nextImage(){
-            curIndex++;
-            curIndex=curIndex % pics;
-            return(imgArray[curIndex].src);
-        }
-        function randomImage(){
-            curIndex=Math.floor(Math.random()*pics) ;
-            return(imgArray[curIndex].src);
-        }
 
-    </script>
-</body>
+$(document).ready(function() {
+   $(':input').blur(function() {
+      if($(this).val().length == 0) {
+         $(this).addClass('error')
+         .after('<span class="error">不可是空的!</span>');
+      }
+   });
+   $(':input').focus(function() {
+      $(this).removeClass('error')
+      .next('span').remove();
+   });
+});
+
+
+$(function(){
+  //找到地圖的中心點
+  var map_div = document.getElementById("map_div");
+  //取得GPS位置
+  var lat = 35.515770; //緯度
+  var lng = 138.755618; //經度
+  var latlng = new google.maps.LatLng(lat, lng); //經緯度物件
+  //建立地圖
+  var gmap = new google.maps.Map(map_div, {
+    zoom:15,
+    center:latlng,
+    mapTypeId:  google.maps.MapTypeId.ROADMAP
+  });
+
+	//建立地標
+  var marker= new google.maps.Marker({
+    position:latlng,
+    icon:"images/myicon.png",
+    map:gmap,
+    title:"河口湖水男孩"
+  });
+  //觸碰地標時的物件
+  google.maps.event.addListener(marker,"click",function(event){
+    var infowindow = new google.maps.InfoWindow({
+      content: '<div>'+"請大家來找我玩"+'</div>'
+    });
+    infowindow.open(gmap, marker);
+  })
+
+
+});
+
+</script>
+
+
+	</head>
+	<body>
+
+
+		<!-- Header -->
+			<header id="header" class="alt">
+				<div class="inner">
+					<h1>Japan</h1>
+					<p>攝影手札</p>
+				</div>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+
+			 		<section id="intro" class="main">
+						<br><br>
+						<p><img src="images/p.jpg" alt="" /></p>
+						<h2>黃義方</h2>
+						<p>photography - iPhone7</p>
+						<hr>
+						<h3>日本河口湖導覽</h3>
+						<ul class="actions">
+							<p>
+							<li><a href="index1.html" class="button ">天上山公園</a></li>
+							<li><a href="index2.html" class="button ">天上山纜車</a></li>
+							<li><a href="index3.html" class="button ">美術館</a></li>
+							<li><a href="index4.html" class="button ">逆富士</a></li>
+							<li><a href="index5.html" class="button ">自然生活館</a></li>
+							<li><a href="index6.html" class="button ">河口湖遊覽船</a></li>
+						  </p>
+						</ul>
+
+					</section>
+
+
+				<!-- Items -->
+					<section class="main items">
+
+						<article class="item">
+							<header>
+								<a name="a"></a>
+								<a href="images/pic01.jpg" target="_blank" title="天上山公園"><img src="images/pic01.jpg" alt="" /></a>
+								<h3>天上山公園</h3>
+							</header>
+							<p>天上山公園<br>
+								(1/5000s．f/1.8．ISO_20)
+							</p>
+							<ul class="actions">
+								<li><a href="http://www.kachikachiyama-ropeway.com/tc/" class="button" target="_blank">More</a></li>
+							</ul>
+
+						</article>
+
+						<article class="item">
+							<header>
+								<a name="b"></a>
+								<a href="images/pic02.jpg" target="_blank" title="天上山纜車"><img src="images/pic02.jpg" alt="" /></a>
+								<h3>天上山纜車</h3>
+							</header>
+							<p>天上山纜車<br>
+								(1/400s．f/1.8．ISO_20)
+							</p>
+							<ul class="actions">
+								<li><a href="http://www.kachikachiyama-ropeway.com/tc/" class="button" target="_blank">More</a></li>
+							</ul>
+						</article>
+
+						<article class="item">
+							<header>
+								<a name="c"></a>
+								<a href="images/pic03.jpg" target="_blank" title="河口湖美術館"><img src="images/pic03.jpg" alt="" /></a>
+								<h3>河口湖美術館</h3>
+							</header>
+							<p>河口湖美術館<br>
+								(1/2800s．f/1.8．ISO_20)
+							</p>
+							<ul class="actions">
+								<li><a href="http://www.fkchannel.jp/kgmuse/" class="button" target="_blank">More</a></li>
+							</ul>
+						</article>
+
+						<article class="item">
+							<header>
+								<a name="d"></a>
+								<a href="images/pic04.jpg" target="_blank" title="逆富士"><img src="images/pic04.jpg" alt="" /></a>
+								<h3>逆富士</h3>
+							</header>
+							<p>逆富士<br>
+								(1/1600s．f/1.8．ISO_20)
+							</p>
+							<ul class="actions">
+								<li><a href="http://kukuna.jp/" class="button" target="_blank">More</a></li>
+							</ul>
+						</article>
+
+						<article class="item">
+							<header>
+								<a name="e"></a>
+								<a href="images/pic05.jpg" target="_blank" title="河口湖自然生活館"><img src="images/pic05.jpg" alt="" /></a>
+								<h3>河口湖自然生活館</h3>
+							</header>
+							<p>河口湖自然生活館<br>
+								(1/3200s．f/1.8．ISO_20)
+							</p>
+							<ul class="actions">
+								<li><a href="http://www.fkchannel.jp/naturelivingcenter/" class="button" target="_blank">More</a></li>
+							</ul>
+						</article>
+
+						<article class="item">
+							<header>
+								<a name="f"></a>
+								<a href="images/pic06.jpg" target="_blank" title="河口湖遊覽船"><img src="images/pic06.jpg" alt="" /></a>
+								<h3>河口湖遊覽船
+								</h3>
+							</header>
+							<p>河口湖遊覽船<br>
+								(1/800s．f/1.8．ISO_20)
+							</p>
+							<ul class="actions">
+								<li><a href="http://www.fujigokokisen.jp/contents/ensoleille/" class="button" target="_blank">More</a></li>
+							</ul>
+						</article>
+
+						<article class="item">
+								<form action="center">
+								   姓名: <input type="text" id="name"/><br/>
+								   電郵: <input type="text" id="email"/><br/>
+								   詢問: <textarea rows="5" cols="25" id="comment">
+								   </textarea><br/>   
+								   <input type="submit" value="送出"/>
+								</form>
+						</article>
+					</section>
+
+					<div data-role="page" id="mappage">
+				    <div data-role="content">
+				        <div id="map_div"></div>
+				    </div>
+					</div>
+					<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+					
+
+				<!-- Footer -->
+					<footer id="footer">
+						
+						<hr>
+						<p><a href="https://www.instagram.com/p820508/" class="icon fa-instagram" target="_blank"></a>
+						 instagram: p820508</p>
+						 
+						 <br><br>
+						<div id="linkweb"><!-- 時間 -->
+							<script>
+							setInterval("linkweb.innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());",1000); 
+							</script>
+					    </div>
+					</footer>
+			</div>
+
+	</body>
 </html>
